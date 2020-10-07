@@ -50,9 +50,9 @@ public class Run {
 			dungeon.getGizmo(pos).updateClank(this, pos);
 		}
 		if (FabricLoader.getInstance().isModLoaded("polymc")) {
-			players.forEach(player -> player.world.playSound(null, player.getPos().x, player.getPos().y, player.getPos().z, SoundEvents.BLOCK_NOTE_BLOCK_DIDGERIDOO, SoundCategory.BLOCKS, 1f, 0.793701f));
+			players.forEach(player -> player.world.playSound(null, player.getPos().x, player.getPos().y, player.getPos().z, SoundEvents.BLOCK_NOTE_BLOCK_DIDGERIDOO, SoundCategory.BLOCKS, 1f, 0.749154f));
 			schedule(6, () -> players.forEach(player -> player.world.playSound(null, player.getPos().x, player.getPos().y, player.getPos().z, SoundEvents.BLOCK_NOTE_BLOCK_DIDGERIDOO, SoundCategory.BLOCKS, 1f, 0.707107f)));
-			schedule(12, () -> players.forEach(player -> player.world.playSound(null, player.getPos().x, player.getPos().y, player.getPos().z, SoundEvents.BLOCK_NOTE_BLOCK_DIDGERIDOO, SoundCategory.BLOCKS, 1f, 0.529732f)));
+			schedule(12, () -> players.forEach(player -> player.world.playSound(null, player.getPos().x, player.getPos().y, player.getPos().z, SoundEvents.BLOCK_NOTE_BLOCK_DIDGERIDOO, SoundCategory.BLOCKS, 1f, 0.5F)));
 			System.out.println(scheduledEvents.toString());
 		} else {
 			//TODO: play our own sound event here
