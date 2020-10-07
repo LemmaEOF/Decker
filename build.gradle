@@ -20,7 +20,8 @@ minecraft {
 
 repositories {
 	maven { url "https://server.bbkr.space/artifactory/libs-release" } // Cotton maven - home of Cotton projects
-	maven { url "https://maven.abusedmaster.xyz" } // NerdHub maven - home of Cardinal Components
+	maven { url "https://dl.bintray.com/ladysnake/libs" } // Ladysnake maven - home of Cardinal Components
+	maven { url "https://jitpack.io" }
 }
 
 dependencies {
@@ -29,6 +30,13 @@ dependencies {
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 	compileOnly "com.google.code.findbugs:jsr305:3.0.2"
+
+	modImplementation "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-base:${project.cardinal_version}"
+	modImplementation "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-world:${project.cardinal_version}"
+	modImplementation ("com.github.TheEpicBlock:PolyMc:${project.polymc_version}") {transitive = false}
+
+	include "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-base:${project.cardinal_version}"
+	include "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-world:${project.cardinal_version}"
 }
 
 processResources {

@@ -13,7 +13,13 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "io.github.cottonmc.starter.FabricStarter"
+      "space.bbkr.decker.Decker"
+    ],
+    "client": [
+      "space.bbkr.decker.DeckerClient"
+    ],
+    "polymc": [
+      "space.bbkr.decker.compat.PolyMCLoader"
     ]
   },
   "mixins": [
