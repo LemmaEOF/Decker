@@ -1,4 +1,4 @@
-package space.bbkr.decker.game;
+package gay.lemmaeof.decker.game;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,12 +8,12 @@ import java.util.Set;
 
 import javax.annotation.Nullable;
 
-import space.bbkr.decker.component.DungeonComponent;
-import space.bbkr.decker.game.gizmo.Gizmo;
+import gay.lemmaeof.decker.component.DungeonComponent;
+import gay.lemmaeof.decker.game.gizmo.Gizmo;
 
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.Tag;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtElement;
+import net.minecraft.nbt.NbtList;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
@@ -86,34 +86,35 @@ public class Dungeon implements DungeonComponent {
 	public Run getCurrentRun() {
 		return currentRun;
 	}
+	
 
 	@Override
-	public void readFromNbt(CompoundTag tag) {
+	public void readFromNbt(NbtCompound tag) {
 		bounds.clear();
 		gizmos.clear();
 
-		ListTag boxesTag = tag.getList("Boxes", NbtType.COMPOUND);
-		for (Tag t : boxesTag) {
-			CompoundTag boxTag = (CompoundTag) t;
+		NbtList boxesTag = tag.getList("Boxes", NbtType.COMPOUND);
+		for (NbtElement t : boxesTag) {
+			NbtCompound boxTag = (NbtCompound) t;
 			bounds.add(new Box(boxTag.getDouble("MinX"), boxTag.getDouble("MinY"), boxTag.getDouble("MinZ"),
 					boxTag.getDouble("MaxX"), boxTag.getDouble("MaxY"), boxTag.getDouble("MaxZ")));
 		}
 
-		CompoundTag gizmosTag = tag.getCompound("Gizmos");
+		NbtCompound gizmosTag = tag.getCompound("Gizmos");
 		for (String key : gizmosTag.getKeys()) {
 			BlockPos pos = BlockPos.fromLong(Long.parseLong(key));
-			CompoundTag gizmoTag = gizmosTag.getCompound(key);
+			NbtCompound gizmoTag = gizmosTag.getCompound(key);
 			Gizmo gizmo = Gizmo.getGizmo(new Identifier(gizmoTag.getString("Id")));
-			gizmo.fromTag(gizmoTag.getCompound("Data"));
+			gizmo.readNbt(gizmoTag.getCompound("Data"));
 			gizmos.put(pos, gizmo);
 		}
 	}
 
 	@Override
-	public void writeToNbt(CompoundTag tag) {
-		ListTag boxesTag = new ListTag();
+	public void writeToNbt(NbtCompound tag) {
+		NbtList boxesTag = new NbtList();
 		for (Box box : bounds) {
-			CompoundTag boxTag = new CompoundTag();
+			NbtCompound boxTag = new NbtCompound();
 			boxTag.putDouble("MinX", box.minX);
 			boxTag.putDouble("MaxX", box.maxX);
 			boxTag.putDouble("MinY", box.minY);
@@ -123,12 +124,14 @@ public class Dungeon implements DungeonComponent {
 			boxesTag.add(boxTag);
 		}
 
-		CompoundTag gizmosTag = new CompoundTag();
+		NbtCompound gizmosTag = new NbtCompound();
 		for (BlockPos pos : gizmos.keySet()) {
 			Gizmo gizmo = gizmos.get(pos);
-			CompoundTag gizmoTag = new CompoundTag();
+			NbtCompound gizmoTag = new NbtCompound();
 			gizmoTag.putString("Id", gizmo.getId().toString());
-			gizmoTag.put("Data", gizmo.toTag(new CompoundTag()));
+			NbtCompound dataTag = new NbtCompound();
+			gizmo.writeNbt(dataTag);
+			gizmoTag.put("Data", dataTag);
 			gizmosTag.put(Long.toString(pos.asLong()), gizmoTag);
 		}
 

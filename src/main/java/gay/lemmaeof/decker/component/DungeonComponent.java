@@ -1,14 +1,13 @@
-package space.bbkr.decker.component;
+package gay.lemmaeof.decker.component;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import javax.annotation.Nullable;
 
 import dev.onyxstudios.cca.api.v3.component.ComponentV3;
-import space.bbkr.decker.game.Run;
-import space.bbkr.decker.game.gizmo.Gizmo;
+import gay.lemmaeof.decker.game.Run;
+import gay.lemmaeof.decker.game.gizmo.Gizmo;
 
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;

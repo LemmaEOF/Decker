@@ -1,11 +1,12 @@
-package space.bbkr.decker.registry;
+package gay.lemmaeof.decker.registry;
 
-import space.bbkr.decker.game.Dungeon;
-import space.bbkr.decker.game.Run;
+import gay.lemmaeof.decker.game.Dungeon;
+import gay.lemmaeof.decker.game.Run;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.command.CommandManager;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.LiteralText;
 
 import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
@@ -27,8 +28,8 @@ public class DeckerCommands {
 							run = new Run(dungeon);
 						}
 						Entity e = context.getSource().getEntity();
-						if (e instanceof PlayerEntity) {
-							run.addPlayer((PlayerEntity) e);
+						if (e instanceof ServerPlayerEntity player) {
+							run.addPlayer(player);
 						}
 						run.schedule(40, () -> {
 							context.getSource().sendFeedback(new LiteralText("Sent clank!"), true);

@@ -1,11 +1,11 @@
-package space.bbkr.decker.game.gizmo;
+package gay.lemmaeof.decker.game.gizmo;
 
-import space.bbkr.decker.game.Dungeon;
-import space.bbkr.decker.game.Run;
+import gay.lemmaeof.decker.game.Dungeon;
+import gay.lemmaeof.decker.game.Run;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.util.math.BlockPos;
 
@@ -18,7 +18,7 @@ public class VanishingBlockGizmo extends Gizmo {
 
 	@Override
 	public void updateClank(Run run, BlockPos pos) {
-		if (run.getClanks() > 10) { //TODO: what's the scale of clank?
+		if (run.getClanks() > 10) { //TODO: configurable
 			run.getDungeon().getWorld().setBlockState(pos, Blocks.AIR.getDefaultState());
 		}
 	}
@@ -29,13 +29,12 @@ public class VanishingBlockGizmo extends Gizmo {
 	}
 
 	@Override
-	public CompoundTag toTag(CompoundTag tag) {
+	public void writeNbt(NbtCompound tag) {
 		BlockState.CODEC.encodeStart(NbtOps.INSTANCE, normalState).result().ifPresent(res -> tag.put("NormalState", res));
-		return tag;
 	}
 
 	@Override
-	public void fromTag(CompoundTag tag) {
+	public void readNbt(NbtCompound tag) {
 		BlockState.CODEC.decode(NbtOps.INSTANCE, tag.getCompound("NormalState")).result().ifPresent(pair -> normalState = pair.getFirst());
 	}
 }

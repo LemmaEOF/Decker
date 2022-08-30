@@ -1,6 +1,6 @@
-package space.bbkr.decker.game.gizmo;
+package gay.lemmaeof.decker.game.gizmo;
 
-import space.bbkr.decker.game.Run;
+import gay.lemmaeof.decker.game.Run;
 
 import net.minecraft.util.math.BlockPos;
 
