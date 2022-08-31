@@ -1,4 +1,4 @@
-package gay.lemmaeof.decker.registry;
+package gay.lemmaeof.decker.init;
 
 import eu.pb4.polymer.api.other.PolymerSoundEvent;
 import gay.lemmaeof.decker.Decker;

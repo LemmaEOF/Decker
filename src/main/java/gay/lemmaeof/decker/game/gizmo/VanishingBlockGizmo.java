@@ -1,6 +1,6 @@
 package gay.lemmaeof.decker.game.gizmo;
 
-import gay.lemmaeof.decker.game.Dungeon;
+import gay.lemmaeof.decker.game.DungeonImpl;
 import gay.lemmaeof.decker.game.Run;
 
 import net.minecraft.block.BlockState;
@@ -24,7 +24,7 @@ public class VanishingBlockGizmo extends Gizmo {
 	}
 
 	@Override
-	public void reset(Dungeon dungeon, BlockPos pos) {
+	public void reset(DungeonImpl dungeon, BlockPos pos) {
 		dungeon.getWorld().setBlockState(pos, normalState);
 	}
 

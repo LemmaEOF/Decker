@@ -1,4 +1,4 @@
-package gay.lemmaeof.decker.registry;
+package gay.lemmaeof.decker.init;
 
 import gay.lemmaeof.decker.Decker;
 

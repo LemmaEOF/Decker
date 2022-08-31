@@ -8,26 +8,27 @@ import java.util.Set;
 
 import javax.annotation.Nullable;
 
-import gay.lemmaeof.decker.component.DungeonComponent;
+import gay.lemmaeof.decker.api.Dungeon;
+import gay.lemmaeof.decker.component.DungeonsComponent;
 import gay.lemmaeof.decker.game.gizmo.Gizmo;
 
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.BlockBox;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Box;
 import net.minecraft.world.World;
 
 import net.fabricmc.fabric.api.util.NbtType;
 
-public class Dungeon implements DungeonComponent {
+public class DungeonImpl implements Dungeon {
 	private final World world;
-	private final List<Box> bounds = new ArrayList<>();
+	private final List<BlockBox> bounds = new ArrayList<>();
 	private final Map<BlockPos, Gizmo> gizmos = new HashMap<>();
 	private Run currentRun;
 
-	public Dungeon(World world) {
+	public DungeonImpl(World world) {
 		this.world = world;
 	}
 
@@ -37,8 +38,8 @@ public class Dungeon implements DungeonComponent {
 	}
 
 	@Override
-	public void addBox(Box box) {
-		for (Box bb : bounds) {
+	public void addBox(BlockBox box) {
+		for (BlockBox bb : bounds) {
 			if (box.intersects(bb)) {
 				bounds.add(box);
 				return;
@@ -47,19 +48,19 @@ public class Dungeon implements DungeonComponent {
 	}
 
 	@Override
-	public List<Box> getBounds() {
+	public List<BlockBox> getBounds() {
 		return bounds;
 	}
 
 	@Override
-	public void removeBox(Box box) {
+	public void removeBox(BlockBox box) {
 		bounds.remove(box);
 	}
 
 	@Override
 	public void addGizmo(BlockPos pos, Gizmo gizmo) {
-		for (Box box: bounds) {
-			if (box.contains(pos.getX(), pos.getY(), pos.getZ())) {
+		for (BlockBox box: bounds) {
+			if (box.contains(pos)) {
 				gizmos.put(pos, gizmo);
 				return;
 			}
@@ -86,7 +87,11 @@ public class Dungeon implements DungeonComponent {
 	public Run getCurrentRun() {
 		return currentRun;
 	}
-	
+
+	@Override
+	public void startRun(Run run) {
+		this.currentRun = run;
+	}
 
 	@Override
 	public void readFromNbt(NbtCompound tag) {
@@ -96,8 +101,8 @@ public class Dungeon implements DungeonComponent {
 		NbtList boxesTag = tag.getList("Boxes", NbtType.COMPOUND);
 		for (NbtElement t : boxesTag) {
 			NbtCompound boxTag = (NbtCompound) t;
-			bounds.add(new Box(boxTag.getDouble("MinX"), boxTag.getDouble("MinY"), boxTag.getDouble("MinZ"),
-					boxTag.getDouble("MaxX"), boxTag.getDouble("MaxY"), boxTag.getDouble("MaxZ")));
+			bounds.add(new BlockBox(boxTag.getInt("MinX"), boxTag.getInt("MinY"), boxTag.getInt("MinZ"),
+					boxTag.getInt("MaxX"), boxTag.getInt("MaxY"), boxTag.getInt("MaxZ")));
 		}
 
 		NbtCompound gizmosTag = tag.getCompound("Gizmos");
@@ -113,14 +118,14 @@ public class Dungeon implements DungeonComponent {
 	@Override
 	public void writeToNbt(NbtCompound tag) {
 		NbtList boxesTag = new NbtList();
-		for (Box box : bounds) {
+		for (BlockBox box : bounds) {
 			NbtCompound boxTag = new NbtCompound();
-			boxTag.putDouble("MinX", box.minX);
-			boxTag.putDouble("MaxX", box.maxX);
-			boxTag.putDouble("MinY", box.minY);
-			boxTag.putDouble("MaxY", box.maxY);
-			boxTag.putDouble("MinZ", box.minZ);
-			boxTag.putDouble("MaxZ", box.maxZ);
+			boxTag.putInt("MinX", box.getMinX());
+			boxTag.putInt("MaxX", box.getMaxX());
+			boxTag.putInt("MinY", box.getMinY());
+			boxTag.putInt("MaxY", box.getMaxY());
+			boxTag.putInt("MinZ", box.getMinZ());
+			boxTag.putInt("MaxZ", box.getMaxZ());
 			boxesTag.add(boxTag);
 		}
 

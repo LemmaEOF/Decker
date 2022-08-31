@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Supplier;
 
-import gay.lemmaeof.decker.game.Dungeon;
+import gay.lemmaeof.decker.api.Dungeon;
 import gay.lemmaeof.decker.game.Run;
 
 import net.minecraft.nbt.NbtCompound;

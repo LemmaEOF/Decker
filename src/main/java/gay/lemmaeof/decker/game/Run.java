@@ -6,20 +6,18 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import gay.lemmaeof.decker.api.Dungeon;
 import gay.lemmaeof.decker.game.gizmo.Gizmo;
 import gay.lemmaeof.decker.game.gizmo.TickingGizmo;
-import gay.lemmaeof.decker.registry.DeckerSounds;
+import gay.lemmaeof.decker.init.DeckerSounds;
 import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
-
-import net.fabricmc.loader.api.FabricLoader;
 
 public class Run {
 	private final Dungeon dungeon;
